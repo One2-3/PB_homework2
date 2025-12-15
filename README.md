@@ -1,6 +1,4 @@
----
 
-````md
 # BurgundyFlix (pb-assignment-02)
 
 TMDB(The Movie Database) API를 활용한 영화 탐색 웹앱입니다.  
@@ -141,6 +139,4 @@ pb-assignment-02/
 * GitHub Actions를 통해 `main` 브랜치 push 시 자동 배포됩니다.
 
 ```
-
----
 
