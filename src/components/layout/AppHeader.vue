@@ -2,7 +2,10 @@
     import { computed, onMounted, onUnmounted, ref } from "vue";
     import { useRoute, useRouter } from "vue-router";
     import { useAuthStore } from "@/stores/auth";
-    
+    import { useUiStore } from "@/stores/ui";
+
+
+    const ui = useUiStore();
     const route = useRoute();
     const router = useRouter();
     const auth = useAuthStore();
@@ -41,12 +44,19 @@
           </nav>
     
           <div class="right">
+            <!-- ✅ 테마 토글: 항상 보이게 -->
+            <button class="btn theme" @click="ui.cycleTheme" :title="`Theme: ${ui.themeLabel}`">
+                {{ ui.themeLabel }}
+            </button>
+
             <template v-if="auth.isLoggedIn">
-              <span class="user" :title="auth.email">{{ auth.email }}</span>
-              <button class="btn" @click="logout">Logout</button>
+                <span class="user" :title="auth.email">{{ auth.email }}</span>
+                <button class="btn" @click="logout">Logout</button>
             </template>
+
             <RouterLink v-else class="btn" to="/signin">Sign in</RouterLink>
-          </div>
+            </div>
+
         </div>
       </header>
     </template>
@@ -100,5 +110,20 @@
       color: var(--muted); font-size: 13px;
       max-width: 160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
     }
+    .right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    }
+
+    .btn.theme{
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    }
+    .btn.theme:hover{
+    border-color: rgba(122,31,61,.45);
+    }
+
     </style>
     

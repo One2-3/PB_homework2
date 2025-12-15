@@ -7,10 +7,13 @@
     import { useWishlistStore } from "@/stores/wishlist";
     import { useToast } from "vue-toastification";
     import { lsGet, lsSet } from "@/composables/useLocalStorage";
+    import { useUiStore } from "@/stores/ui";
+
     
     const toast = useToast();
     const wish = useWishlistStore();
-    
+    const ui = useUiStore();
+
     const genres = ref<Genre[]>([]);
     const loading = ref(false);
     
@@ -127,10 +130,17 @@
     <template>
       <div class="container layout">
         <aside class="filters card">
-          <div class="head">
+            <div class="head">
             <h2>Filter</h2>
-            <button class="btn" @click="reset">Reset</button>
-          </div>
+
+            <div class="headBtns">
+                <button class="btn" @click="ui.cycleTheme" :title="`Theme: ${ui.themeLabel}`">
+                {{ ui.themeLabel }}
+                </button>
+                <button class="btn" @click="reset">Reset</button>
+            </div>
+            </div>
+
     
           <div class="field">
             <label>키워드</label>
