@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import { lsGet } from "@/composables/useLocalStorage";
+import { useAuthStore } from "@/stores/auth";
 
 const routes = [
   { path: "/signin", component: () => import("@/pages/SigninPage.vue") },
@@ -9,12 +9,10 @@ const routes = [
   { path: "/wishlist", component: () => import("@/pages/WishlistPage.vue"), meta: { auth: true } },
 ];
 
-export const router = createRouter({
-  history: createWebHashHistory(),
-  routes,
-});
+export const router = createRouter({ history: createWebHashHistory(), routes });
 
 router.beforeEach((to) => {
-  const auth = lsGet("auth", { isLoggedIn: false });
+  const auth = useAuthStore();
+  auth.hydrate(); // 새로고침 시 localStorage 반영
   if (to.meta.auth && !auth.isLoggedIn) return "/signin";
 });

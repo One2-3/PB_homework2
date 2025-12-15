@@ -1,27 +1,14 @@
-.container{ max-width: var(--wrap); margin: 0 auto; padding: 0 18px; }
-.card{
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow);
-}
+.container{max-width:var(--wrap);margin:0 auto;padding:0 18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
 .btn{
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 10px 14px;
-  background: var(--surface);
-  cursor: pointer;
-  transition: transform .15s ease, border-color .15s ease;
+  border:1px solid var(--line); border-radius:999px; padding:10px 14px;
+  background:var(--surface); cursor:pointer;
+  transition:transform .15s ease, border-color .15s ease, background .15s ease;
 }
-.btn:hover{ transform: translateY(-1px); border-color: rgba(122,31,61,.35); }
-.btn.primary{
-  background: var(--primary);
-  color: #fff;
-  border-color: transparent;
-}
-.btn.primary:hover{ background: var(--primary-2); }
+.btn:hover{transform:translateY(-1px);border-color:rgba(122,31,61,.35)}
+.btn.primary{background:var(--primary);color:#fff;border-color:transparent}
+.btn.primary:hover{background:var(--primary2)}
 .badge{
-  font-size: 12px; padding: 6px 10px; border-radius: 999px;
-  background: var(--primary-soft); color: var(--primary);
-  border: 1px solid rgba(122,31,61,.18);
+  font-size:12px;padding:6px 10px;border-radius:999px;
+  background:var(--primarySoft);color:var(--primary);border:1px solid rgba(122,31,61,.18)
 }
