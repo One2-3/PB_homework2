@@ -1,24 +1,25 @@
 <script setup lang="ts">
     import { ref } from "vue";
-    import { useAuthStore } from "@/stores/auth";
     import { useRouter } from "vue-router";
     import { useToast } from "vue-toastification";
+    import { useAuthStore } from "@/stores/auth";
     
-    const auth = useAuthStore();
     const router = useRouter();
     const toast = useToast();
+    const auth = useAuthStore();
     
-    const mode = ref<"login"|"register">("login");
+    const mode = ref<"login" | "register">("login");
     
     const email = ref(auth.savedEmail || "");
-    const password = ref("");      // TMDB API Key
+    const password = ref("");
+    const password2 = ref("");
     const rememberMe = ref(true);
     const agree = ref(false);
     
     async function onLogin() {
       try {
         auth.signin(email.value, password.value, rememberMe.value);
-        toast.success("로그인 성공!");
+        toast.success("로그인 성공");
         router.push("/");
       } catch (e: any) {
         toast.error(e?.message || "로그인 실패");
@@ -27,9 +28,11 @@
     
     async function onRegister() {
       try {
-        auth.signup(email.value, password.value, agree.value);
-        toast.success("회원가입 성공! 로그인 해주세요.");
+        auth.signup(email.value, password.value, password2.value, agree.value);
+        toast.success("회원가입 완료. 로그인 해주세요.");
         mode.value = "login";
+        password.value = "";
+        password2.value = "";
         agree.value = false;
       } catch (e: any) {
         toast.error(e?.message || "회원가입 실패");
@@ -39,88 +42,205 @@
     
     <template>
       <div class="wrap">
-        <div class="container grid">
-          <section class="left card">
-            <div class="hero">
-              <span class="badge">Light UI + Burgundy</span>
-              <h1>쉽게 찾고,<br/>편하게 저장하는 영화 탐색</h1>
-              <p>TMDB API 기반. 포스터 중심의 정돈된 레이아웃으로 누구나 쓰기 편하게.</p>
-              <ul>
-                <li>Home: 4개 섹션</li>
-                <li>Popular: Table / Infinite</li>
-                <li>Search: 필터 + Reset</li>
-                <li>Wishlist: LocalStorage only</li>
-              </ul>
-            </div>
-          </section>
+        <section class="card auth glow">
+          <div class="brand">
+            <span class="dot" aria-hidden="true" />
+            <span class="name">BurgundyFlix</span>
+          </div>
     
-          <section class="right card">
-            <div class="top">
-              <button class="btn" :class="{primary: mode==='login'}" @click="mode='login'">로그인</button>
-              <button class="btn" :class="{primary: mode==='register'}" @click="mode='register'">회원가입</button>
-            </div>
+          <h1 class="title">{{ mode === "login" ? "로그인" : "회원가입" }}</h1>
     
-            <Transition name="flip" mode="out-in">
-              <div :key="mode" class="panel">
-                <h2>{{ mode==='login' ? 'Welcome back' : 'Create account' }}</h2>
+          <div class="field">
+            <label>이메일</label>
+            <input v-model="email" placeholder="Email address" autocomplete="email" />
+          </div>
     
-                <div class="field">
-                  <label>이메일</label>
-                  <input v-model="email" placeholder="name@example.com" />
-                </div>
+          <div class="field">
+            <label>비밀번호</label>
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              autocomplete="current-password"
+              @keydown.enter="mode==='login' ? onLogin() : onRegister()"
+            />
+          </div>
     
-                <div class="field">
-                  <label>비밀번호 (TMDB API Key)</label>
-                  <input v-model="password" type="password" placeholder="TMDB API Key 입력" />
-                </div>
+          <div v-if="mode==='register'" class="field">
+            <label>비밀번호 확인</label>
+            <input
+              v-model="password2"
+              type="password"
+              placeholder="Confirm password"
+              autocomplete="new-password"
+              @keydown.enter="onRegister"
+            />
+          </div>
     
-                <div v-if="mode==='login'" class="row">
-                  <label class="chk"><input v-model="rememberMe" type="checkbox" /> remember me</label>
-                </div>
+          <div class="row" v-if="mode==='login'">
+            <label class="chk">
+              <input v-model="rememberMe" type="checkbox" />
+              로그인 상태 유지
+            </label>
+          </div>
     
-                <div v-else class="row">
-                  <label class="chk"><input v-model="agree" type="checkbox" /> 약관에 동의합니다</label>
-                </div>
+          <div class="row" v-else>
+            <label class="chk">
+              <input v-model="agree" type="checkbox" />
+              약관에 동의합니다
+            </label>
+          </div>
     
-                <button v-if="mode==='login'" class="btn primary full" @click="onLogin">로그인</button>
-                <button v-else class="btn primary full" @click="onRegister">회원가입</button>
+          <button class="btn primary full" v-if="mode==='login'" @click="onLogin">Continue</button>
+          <button class="btn primary full" v-else @click="onRegister">Create account</button>
     
-                <p class="hint">※ 로그인 성공 후 TMDB 호출이 가능해요.</p>
-              </div>
-            </Transition>
-          </section>
-        </div>
+          <div class="switch">
+            <template v-if="mode==='login'">
+              <span>계정이 없나요?</span>
+              <button class="link" @click="mode='register'">회원가입</button>
+            </template>
+            <template v-else>
+              <span>이미 계정이 있나요?</span>
+              <button class="link" @click="mode='login'">로그인</button>
+            </template>
+          </div>
+        </section>
       </div>
     </template>
     
     <style scoped>
-    .wrap{ padding: 28px 0 40px; }
-    .grid{ display:grid; gap:18px; grid-template-columns: 1.05fr .95fr; align-items: stretch; }
-    .left{ background: linear-gradient(135deg, var(--primarySoft), #fff); padding: 22px; }
-    .hero h1{ margin: 14px 0 8px; font-size: 34px; line-height: 1.15; }
-    .hero p{ margin:0 0 14px; color: var(--muted); max-width: 48ch; }
-    .hero ul{ margin: 10px 0 0; padding-left: 18px; color: rgba(27,20,23,.75); }
+    .wrap{
+      min-height: 100vh;
+      width: 100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px 16px;
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(122,31,61,.10), transparent 60%),
+                  radial-gradient(900px 500px at 90% 40%, rgba(122,31,61,.08), transparent 55%),
+                  var(--bg);
+    }
+    .auth{
+      width: 420px;
+      padding: 22px;
+      border-radius: 18px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800;
+      margin-bottom: 10px;
+    }
+    .dot{ width:10px; height:10px; border-radius:50%; background: var(--primary); }
+    .name{ letter-spacing: .2px; }
+    .title{ margin: 10px 0 14px; font-size: 24px; }
     
-    .right{ padding: 18px; }
-    .top{ display:flex; gap:10px; margin-bottom: 12px; flex-wrap:wrap; }
-    .panel h2{ margin: 8px 0 14px; }
     .field{ display:flex; flex-direction:column; gap:6px; margin-bottom: 12px; }
-    .field label{ font-size: 12px; color: var(--muted); }
-    .field input{
-      padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: #fff;
+    label{ font-size:12px; color:var(--muted); }
+    input{
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background:#fff;
     }
-    .row{ display:flex; justify-content: space-between; margin: 8px 0 14px; }
+    
+    .row{ display:flex; justify-content:flex-start; margin: 6px 0 14px; }
     .chk{ font-size: 13px; color: var(--muted); display:flex; gap:8px; align-items:center; }
-    .full{ width: 100%; justify-content:center; }
-    .hint{ margin: 12px 0 0; color: var(--muted); font-size: 12px; }
     
-    .flip-enter-active,.flip-leave-active{ transition: transform .22s ease, opacity .22s ease; }
-    .flip-enter-from{ opacity:0; transform: translateY(8px) rotateX(8deg); }
-    .flip-leave-to{ opacity:0; transform: translateY(-6px) rotateX(-6deg); }
+    .full{ width:100%; justify-content:center; padding: 12px 14px; }
     
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: 1fr; }
-      .hero h1{ font-size: 28px; }
+    .switch{
+      margin-top: 14px;
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      color: var(--muted);
+      font-size: 12px;
     }
+    .link{
+      border: none;
+      background: transparent;
+      color: var(--primary);
+      cursor: pointer;
+      padding: 0;
+    }
+    .link:hover{ text-decoration: underline; }
+    
+    /* ✅ Glow wrapper */
+    .glow{
+    position: relative;
+    overflow: visible; /* 카드 밖으로 퍼지는 빛 */
+    }
+
+    /* 애니메이션 불빛 레이어(바깥) */
+    .glow::before{
+    content:"";
+    position:absolute;
+    inset:-18px;                 /* 바깥쪽으로만 퍼지게 */
+    border-radius: 28px;
+    background: radial-gradient(closest-side, rgba(122,31,61,.18), transparent 70%);
+    filter: blur(18px);
+    opacity: .55;
+    z-index: 0;
+    pointer-events:none;
+    }
+
+
+    /* 테두리 느낌(얇게 한 겹 더) */
+    .glow::after{
+    content:"";
+    position:absolute;
+    inset:-3px;                 /* 테두리 영역 */
+    border-radius: 20px;
+    padding: 2px;               /* 링 두께 */
+    background: conic-gradient(
+        from var(--a),
+        rgba(122,31,61,0),
+        rgba(122,31,61,.95),
+        rgba(255,255,255,0),
+        rgba(122,31,61,.95),
+        rgba(122,31,61,0)
+    );
+    opacity: .9;
+    z-index: 0;
+    pointer-events:none;
+    animation: glowSpin 3.2s linear infinite;
+
+    /* 가운데를 뚫어서 "테두리만" 보이게 */
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    /* 링 자체가 살짝 빛나게 */
+    filter: drop-shadow(0 0 10px rgba(122,31,61,.25));
+    }
+
+
+    /* 카드 내용은 glow 레이어 위로 */
+    .glow > *{
+    position: relative;
+    z-index: 1;
+    }
+
+    /* 입력 포커스 시 더 살아나게 */
+    .glow:focus-within::before{ opacity: .75; filter: blur(18px); }
+    .glow:focus-within::after{ opacity: .85; }
+
+    /* 애니메이션용 커스텀 속성 */
+    @property --a{
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+    }
+    @keyframes glowSpin{
+    to{ --a: 360deg; }
+    }
+
+    /* 접근성: 모션 줄이기 설정이면 애니메이션 끔 */
+    @media (prefers-reduced-motion: reduce){
+    .glow::before, .glow::after{ animation: none; }
+    }
+
     </style>
     

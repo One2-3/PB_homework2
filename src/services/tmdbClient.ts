@@ -7,6 +7,17 @@ export const tmdb = axios.create({
 
 tmdb.interceptors.request.use((config) => {
   const apiKey = localStorage.getItem("TMDb-Key") || "";
-  config.params = { ...(config.params || {}), api_key: apiKey, language: "ko-KR" };
+
+  if (!apiKey) {
+    return Promise.reject(
+      new Error("TMDB API Key가 없습니다. 로그인 후 이용해 주세요.")
+    );
+  }
+
+  config.params = {
+    ...(config.params || {}),
+    api_key: apiKey,
+    language: "ko-KR",
+  };
   return config;
 });
