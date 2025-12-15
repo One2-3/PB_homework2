@@ -2,7 +2,6 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
-import { useUiStore } from "@/stores/ui";
 import "@/styles/tokens.css";
 import "@/styles/ui.css";
 
