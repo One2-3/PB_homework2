@@ -111,157 +111,65 @@
     <style scoped>
 /* ===== SigninPage.vue <style scoped> 전체 교체용 ===== */
 
-    .wrap{
-  min-height: 100vh;
-  width: 100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding: 24px 16px;
-  background:
-    radial-gradient(1200px 600px at 20% 10%, rgba(122,31,61,.10), transparent 60%),
-    radial-gradient(900px 500px at 90% 40%, rgba(122,31,61,.08), transparent 55%),
-    var(--bg);
+.layout{ display:grid; gap:14px; grid-template-columns: 320px 1fr; align-items:start; }
+.filters{ padding: 14px; position: sticky; top: 78px; }
+
+.head{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.headBtns{ display:flex; gap:8px; align-items:center; }
+
+h2{ margin:0 0 10px; font-size:18px; }
+
+.field{ display:flex; flex-direction:column; gap:6px; margin:10px 0; }
+label{ font-size:12px; color:var(--muted); font-weight:700; }
+
+/* ✅ 다크/라이트 대응: #fff 하드코딩 제거 */
+input,select{
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background: var(--inputBg);
+  color: var(--text);
 }
-
-/* ✅ 카드 자체 배경도 토큰으로 확실히 */
-.auth{
-  width: 420px;
-  padding: 22px;
-  border-radius: 18px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-
-  /* ✅ 변수 깨져도 무조건 흰색 글씨로 fallback */
-  color: var(--text, #FFFFFF);
-}
-
-.brand{ display:flex; align-items:center; gap:10px; font-weight:800; margin-bottom:10px; }
-.dot{ width:10px; height:10px; border-radius:50%; background: var(--primary); }
-.name{ letter-spacing:.2px; }
-
-.title{
-  margin: 10px 0 14px;
-  font-size: 24px;
-  font-weight: 900;
-  color: var(--text, #FFFFFF);
-}
-
-.field{ display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
-
-label{
-  font-size:12px;
-  font-weight:700;
-  color: var(--muted, rgba(255,255,255,.78));
-}
-
-/* ✅ 입력창: 다크에서 글씨/배경 확실히 */
-input{
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--inputBg, #1B1418);
-  color: var(--text, #FFFFFF);
-}
-
 input::placeholder{
-  color: var(--muted, rgba(255,255,255,.65));
+  color: var(--muted);
   opacity: 1;
 }
 
-.row{ display:flex; justify-content:flex-start; margin: 6px 0 14px; }
-.chk{
-  font-size: 13px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  font-weight:600;
-  color: var(--muted, rgba(255,255,255,.78));
-}
+.results{ min-width:0; }
+.topline{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
 
-.full{ width:100%; justify-content:center; padding: 12px 14px; }
+.grid{ display:grid; gap:12px; grid-template-columns: repeat(5, 1fr); }
+.empty{ padding:18px; }
+.empty h3{ margin:0 0 6px; }
+.empty p{ margin:0; color:var(--muted); }
 
-.switch{
-  margin-top: 14px;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  font-size: 12px;
-  font-weight:600;
-  color: var(--muted, rgba(255,255,255,.78));
-}
+.pager{ display:flex; justify-content:flex-end; gap:10px; margin-top:12px; }
 
-.link{
-  border:none;
-  background:transparent;
-  color: var(--primary);
+.recent{ margin-top:14px; }
+.rt{ font-size:12px; color:var(--muted); margin-bottom:8px; }
+.chips{ display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ✅ chip도 다크 대응 */
+.chip{
+  border:1px solid var(--line);
+  background: var(--inputBg);
+  color: var(--text);
+  border-radius:999px;
+  padding:8px 10px;
   cursor:pointer;
-  padding:0;
-  font-weight:800;
+  font-size:12px;
 }
-.link:hover{ text-decoration: underline; }
+.chip:hover{ border-color: rgba(122,31,61,.35); }
 
-/* ===== Burgundy ring glow (테두리만) ===== */
-.glow{ position: relative; overflow: visible; }
-
-.glow::before{
-  content:"";
-  position:absolute;
-  inset:-18px;
-  border-radius: 28px;
-  background: radial-gradient(closest-side, rgba(122,31,61,.18), transparent 70%);
-  filter: blur(18px);
-  opacity: .55;
-  z-index: 0;
-  pointer-events:none;
+@media (max-width: 980px){
+  .layout{ grid-template-columns: 1fr; }
+  .filters{ position: static; }
+  .grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 981px) and (max-width: 1200px){
+  .grid{ grid-template-columns: repeat(4, 1fr); }
 }
 
-.glow::after{
-  content:"";
-  position:absolute;
-  inset:-3px;
-  border-radius: 20px;
-  padding: 2px;
-  background: conic-gradient(
-    from var(--a),
-    rgba(122,31,61,0),
-    rgba(122,31,61,.95),
-    rgba(255,255,255,0),
-    rgba(122,31,61,.95),
-    rgba(122,31,61,0)
-  );
-  opacity: .9;
-  z-index: 0;
-  pointer-events:none;
-  animation: glowSpin 3.2s linear infinite;
-
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-
-  filter: drop-shadow(0 0 10px rgba(122,31,61,.25));
-}
-
-.glow > *{ position: relative; z-index: 1; }
-
-.glow:focus-within::after{
-  opacity: 1;
-  filter: drop-shadow(0 0 14px rgba(122,31,61,.35));
-}
-
-@property --a{
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-@keyframes glowSpin{ to{ --a: 360deg; } }
-
-@media (prefers-reduced-motion: reduce){
-  .glow::after{ animation:none; }
-}
 
     </style>
 
