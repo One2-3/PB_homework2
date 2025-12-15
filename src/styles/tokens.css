@@ -1,0 +1,42 @@
+:root{
+    /* Brand */
+    --primary: #7A1F3D;      /* 버건디 */
+    --primary-2: #9A2B4E;    /* hover */
+    --primary-soft: #F4E9ED; /* 배경 틴트 */
+  
+    /* Neutrals */
+    --bg: #FAF7F8;          /* 전체 배경 (오프화이트) */
+    --surface: #FFFFFF;      /* 카드/패널 */
+    --text: #1B1417;         /* 본문 */
+    --muted: #6C5F66;        /* 보조 텍스트 */
+    --line: rgba(27,20,23,.10);
+  
+    /* Radius / Shadow */
+    --r-lg: 18px;
+    --r-md: 14px;
+    --shadow: 0 10px 30px rgba(27,20,23,.08);
+  
+    /* Spacing */
+    --wrap: 1200px;
+  }
+  
+  *{ box-sizing: border-box; }
+  html, body{ height: 100%; }
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    color: var(--text);
+    background: var(--bg);
+  }
+  a{ color: inherit; text-decoration: none; }
+  button, input, select{ font: inherit; }
+  
+  :focus-visible{
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+  
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; animation: none !important; scroll-behavior:auto !important; }
+  }
+  
