@@ -1,5 +1,4 @@
 :root{
-    /* ✅ 시스템 테마 지원 */
     color-scheme: light dark;
   
     /* Brand */
@@ -14,10 +13,9 @@
     --muted:#6C5F66;
     --line:rgba(27,20,23,.10);
     --shadow:0 10px 30px rgba(27,20,23,.08);
+    --glass: rgba(255,255,255,.82);
+    --inputBg: #FFFFFF;
   
-    /* UI helpers */
-    --glass: rgba(255,255,255,.82); /* 헤더 유리효과 */
-    --inputBg: var(--surface);
     --wrap:1200px;
     --r-lg:18px;
     --r-md:14px;
@@ -25,51 +23,34 @@
   
   @media (prefers-color-scheme: dark){
     :root{
-      /* Dark (burgundy-tinted) */
       --bg:#0F0C0E;
       --surface:#161114;
-      --text:#151515;
-      --muted:#4d242e;
-      --line:rgba(244,237,241,.12);
+  
+      /* ✅ 글씨 선명하게 */
+      --text:#FFFFFF;
+      --muted:#D2C6CE;
+  
+      --line:rgba(244,237,241,.14);
       --shadow:0 14px 34px rgba(0,0,0,.45);
-  
-      /* 브랜드는 유지하되, 다크에서 soft 톤만 조정 */
       --primarySoft: rgba(122,31,61,.22);
-  
-      /* 헤더 유리효과 다크 */
       --glass: rgba(22,17,20,.72);
-  
-      /* 입력 배경 */
-      --inputBg: #1B1418;
+      --inputBg:#1B1418;
     }
   }
   
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    color:var(--text);
-    background:var(--bg);
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-  }
-  a{color:inherit;text-decoration:none}
-  button,input,select{font:inherit}
-  :focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+  /* ✅ 수동 테마 오버라이드 */
+  html[data-theme="light"]{
+    color-scheme: light;
   
-  /* ✅ 수동 테마 오버라이드(버튼 선택 시) */
-    html[data-theme="light"]{
-        color-scheme: light;
-    
-        --bg:#FAF7F8;
-        --surface:#FFFFFF;
-        --text:#1B1417;
-        --muted:#6C5F66;
-        --line:rgba(27,20,23,.10);
-        --shadow:0 10px 30px rgba(27,20,23,.08);
-    
-        --primarySoft:#F4E9ED;
-        --glass: rgba(255,255,255,.82);
-        --inputBg: var(--surface);
+    --bg:#FAF7F8;
+    --surface:#FFFFFF;
+    --text:#1B1417;
+    --muted:#6C5F66;
+    --line:rgba(27,20,23,.10);
+    --shadow:0 10px 30px rgba(27,20,23,.08);
+    --primarySoft:#F4E9ED;
+    --glass: rgba(255,255,255,.82);
+    --inputBg:#FFFFFF;
   }
   
   html[data-theme="dark"]{
@@ -77,13 +58,24 @@
   
     --bg:#0F0C0E;
     --surface:#161114;
-    --text:#151515;
-    --muted:#4d242e;
-    --line:rgba(244,237,241,.12);
+    --text:#FFFFFF;
+    --muted:#D2C6CE;
+    --line:rgba(244,237,241,.14);
     --shadow:0 14px 34px rgba(0,0,0,.45);
-  
     --primarySoft: rgba(122,31,61,.22);
     --glass: rgba(22,17,20,.72);
-    --inputBg: #1B1418;
+    --inputBg:#1B1418;
   }
+  
+  *{ box-sizing:border-box }
+  html,body{ height:100% }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  }
+  a{ color:inherit; text-decoration:none }
+  button,input,select{ font:inherit }
+  :focus-visible{ outline:2px solid var(--primary); outline-offset:2px }
   

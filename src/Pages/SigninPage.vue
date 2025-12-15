@@ -111,187 +111,158 @@
     <style scoped>
 /* ===== SigninPage.vue <style scoped> 전체 교체용 ===== */
 
-        .wrap{
-    min-height: 100vh;
-    width: 100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding: 24px 16px;
-    background:
-        radial-gradient(1200px 600px at 20% 10%, rgba(122,31,61,.10), transparent 60%),
-        radial-gradient(900px 500px at 90% 40%, rgba(122,31,61,.08), transparent 55%),
-        var(--bg);
-    }
+    .wrap{
+  min-height: 100vh;
+  width: 100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 24px 16px;
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgba(122,31,61,.10), transparent 60%),
+    radial-gradient(900px 500px at 90% 40%, rgba(122,31,61,.08), transparent 55%),
+    var(--bg);
+}
 
-    .auth{
-    width: 420px;
-    padding: 22px;
-    border-radius: 18px;
+/* ✅ 카드 자체 배경도 토큰으로 확실히 */
+.auth{
+  width: 420px;
+  padding: 22px;
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
 
-    /* ✅ 글자 선명도(특히 다크에서) */
-    color: var(--text);
-    text-shadow: 0 1px 0 rgba(0,0,0,.30);
-    }
+  /* ✅ 변수 깨져도 무조건 흰색 글씨로 fallback */
+  color: var(--text, #FFFFFF);
+}
 
-    .brand{
-    display:flex; align-items:center; gap:10px;
-    font-weight:800;
-    margin-bottom: 10px;
-    }
-    .dot{ width:10px; height:10px; border-radius:50%; background: var(--primary); }
-    .name{ letter-spacing: .2px; }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:800; margin-bottom:10px; }
+.dot{ width:10px; height:10px; border-radius:50%; background: var(--primary); }
+.name{ letter-spacing:.2px; }
 
-    .title{
-    margin: 10px 0 14px;
-    font-size: 24px;
-    font-weight: 900;
-    color: var(--text);
-    }
+.title{
+  margin: 10px 0 14px;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text, #FFFFFF);
+}
 
-    .field{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    margin-bottom: 12px;
-    }
+.field{ display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
 
-    label{
-    font-size:12px;
-    color: var(--muted);
-    font-weight: 700; /* ✅ 라벨 또렷하게 */
-    }
+label{
+  font-size:12px;
+  font-weight:700;
+  color: var(--muted, rgba(255,255,255,.78));
+}
 
-    /* ✅ 핵심: 다크/라이트에서 input 배경/글자 자동 대응 */
-    input{
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    background: var(--inputBg);
-    color: var(--text);
-    }
+/* ✅ 입력창: 다크에서 글씨/배경 확실히 */
+input{
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--inputBg, #1B1418);
+  color: var(--text, #FFFFFF);
+}
 
-    input::placeholder{
-    color: var(--muted);
-    opacity: 1; /* ✅ placeholder 흐려지는거 방지 */
-    }
+input::placeholder{
+  color: var(--muted, rgba(255,255,255,.65));
+  opacity: 1;
+}
 
-    .row{
-    display:flex;
-    justify-content:flex-start;
-    margin: 6px 0 14px;
-    }
+.row{ display:flex; justify-content:flex-start; margin: 6px 0 14px; }
+.chk{
+  font-size: 13px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  font-weight:600;
+  color: var(--muted, rgba(255,255,255,.78));
+}
 
-    .chk{
-    font-size: 13px;
-    color: var(--muted);
-    display:flex;
-    gap:8px;
-    align-items:center;
-    font-weight: 600;
-    }
+.full{ width:100%; justify-content:center; padding: 12px 14px; }
 
-    .full{
-    width:100%;
-    justify-content:center;
-    padding: 12px 14px;
-    }
+.switch{
+  margin-top: 14px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  font-size: 12px;
+  font-weight:600;
+  color: var(--muted, rgba(255,255,255,.78));
+}
 
-    .switch{
-    margin-top: 14px;
-    display:flex;
-    justify-content:center;
-    gap:8px;
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 600;
-    }
+.link{
+  border:none;
+  background:transparent;
+  color: var(--primary);
+  cursor:pointer;
+  padding:0;
+  font-weight:800;
+}
+.link:hover{ text-decoration: underline; }
 
-    .link{
-    border: none;
-    background: transparent;
-    color: var(--primary);
-    cursor: pointer;
-    padding: 0;
-    font-weight: 800;
-    }
-    .link:hover{ text-decoration: underline; }
+/* ===== Burgundy ring glow (테두리만) ===== */
+.glow{ position: relative; overflow: visible; }
 
-    /* =========================
-    ✅ Burgundy ring glow (안쪽 색 X, 테두리만)
-    ========================= */
-    .glow{
-    position: relative;
-    overflow: visible;
-    }
+.glow::before{
+  content:"";
+  position:absolute;
+  inset:-18px;
+  border-radius: 28px;
+  background: radial-gradient(closest-side, rgba(122,31,61,.18), transparent 70%);
+  filter: blur(18px);
+  opacity: .55;
+  z-index: 0;
+  pointer-events:none;
+}
 
-    /* 바깥으로만 은은한 빛(선택) */
-    .glow::before{
-    content:"";
-    position:absolute;
-    inset:-18px;
-    border-radius: 28px;
-    background: radial-gradient(closest-side, rgba(122,31,61,.18), transparent 70%);
-    filter: blur(18px);
-    opacity: .55;
-    z-index: 0;
-    pointer-events:none;
-    }
+.glow::after{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius: 20px;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--a),
+    rgba(122,31,61,0),
+    rgba(122,31,61,.95),
+    rgba(255,255,255,0),
+    rgba(122,31,61,.95),
+    rgba(122,31,61,0)
+  );
+  opacity: .9;
+  z-index: 0;
+  pointer-events:none;
+  animation: glowSpin 3.2s linear infinite;
 
-    /* 테두리 링이 회전하면서 도는 느낌 */
-    .glow::after{
-    content:"";
-    position:absolute;
-    inset:-3px;
-    border-radius: 20px;
-    padding: 2px; /* 링 두께 */
-    background: conic-gradient(
-        from var(--a),
-        rgba(122,31,61,0),
-        rgba(122,31,61,.95),
-        rgba(255,255,255,0),
-        rgba(122,31,61,.95),
-        rgba(122,31,61,0)
-    );
-    opacity: .9;
-    z-index: 0;
-    pointer-events:none;
-    animation: glowSpin 3.2s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 
-    /* 가운데 뚫어서 테두리만 보이게 */
-    -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+  filter: drop-shadow(0 0 10px rgba(122,31,61,.25));
+}
 
-    filter: drop-shadow(0 0 10px rgba(122,31,61,.25));
-    }
+.glow > *{ position: relative; z-index: 1; }
 
-    .glow > *{
-    position: relative;
-    z-index: 1;
-    }
+.glow:focus-within::after{
+  opacity: 1;
+  filter: drop-shadow(0 0 14px rgba(122,31,61,.35));
+}
 
-    /* 포커스 시 더 살아나게 */
-    .glow:focus-within::after{
-    opacity: 1;
-    filter: drop-shadow(0 0 14px rgba(122,31,61,.35));
-    }
+@property --a{
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes glowSpin{ to{ --a: 360deg; } }
 
-    /* 애니메이션 */
-    @property --a{
-    syntax: "<angle>";
-    inherits: false;
-    initial-value: 0deg;
-    }
-    @keyframes glowSpin{
-    to{ --a: 360deg; }
-    }
+@media (prefers-reduced-motion: reduce){
+  .glow::after{ animation:none; }
+}
 
-    @media (prefers-reduced-motion: reduce){
-    .glow::after{ animation: none; }
-    }
     </style>
 
     
