@@ -109,73 +109,127 @@
     </template>
     
     <style scoped>
-    .wrap{
-      min-height: 100vh;
-      width: 100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 24px 16px;
-      background: radial-gradient(1200px 600px at 20% 10%, rgba(122,31,61,.10), transparent 60%),
-                  radial-gradient(900px 500px at 90% 40%, rgba(122,31,61,.08), transparent 55%),
-                  var(--bg);
+/* ===== SigninPage.vue <style scoped> 전체 교체용 ===== */
+
+        .wrap{
+    min-height: 100vh;
+    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 24px 16px;
+    background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(122,31,61,.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 40%, rgba(122,31,61,.08), transparent 55%),
+        var(--bg);
     }
+
     .auth{
-      width: 420px;
-      padding: 22px;
-      border-radius: 18px;
+    width: 420px;
+    padding: 22px;
+    border-radius: 18px;
+
+    /* ✅ 글자 선명도(특히 다크에서) */
+    color: var(--text);
+    text-shadow: 0 1px 0 rgba(0,0,0,.30);
     }
+
     .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:800;
-      margin-bottom: 10px;
+    display:flex; align-items:center; gap:10px;
+    font-weight:800;
+    margin-bottom: 10px;
     }
     .dot{ width:10px; height:10px; border-radius:50%; background: var(--primary); }
     .name{ letter-spacing: .2px; }
-    .title{ margin: 10px 0 14px; font-size: 24px; }
-    
-    .field{ display:flex; flex-direction:column; gap:6px; margin-bottom: 12px; }
-    label{ font-size:12px; color:var(--muted); }
-    input{
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background:#fff;
-    }
-    
-    .row{ display:flex; justify-content:flex-start; margin: 6px 0 14px; }
-    .chk{ font-size: 13px; color: var(--muted); display:flex; gap:8px; align-items:center; }
-    
-    .full{ width:100%; justify-content:center; padding: 12px 14px; }
-    
-    .switch{
-      margin-top: 14px;
-      display:flex;
-      justify-content:center;
-      gap:8px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .link{
-      border: none;
-      background: transparent;
-      color: var(--primary);
-      cursor: pointer;
-      padding: 0;
-    }
-    .link:hover{ text-decoration: underline; }
-    
-    /* ✅ Glow wrapper */
-    .glow{
-    position: relative;
-    overflow: visible; /* 카드 밖으로 퍼지는 빛 */
+
+    .title{
+    margin: 10px 0 14px;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--text);
     }
 
-    /* 애니메이션 불빛 레이어(바깥) */
+    .field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-bottom: 12px;
+    }
+
+    label{
+    font-size:12px;
+    color: var(--muted);
+    font-weight: 700; /* ✅ 라벨 또렷하게 */
+    }
+
+    /* ✅ 핵심: 다크/라이트에서 input 배경/글자 자동 대응 */
+    input{
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--inputBg);
+    color: var(--text);
+    }
+
+    input::placeholder{
+    color: var(--muted);
+    opacity: 1; /* ✅ placeholder 흐려지는거 방지 */
+    }
+
+    .row{
+    display:flex;
+    justify-content:flex-start;
+    margin: 6px 0 14px;
+    }
+
+    .chk{
+    font-size: 13px;
+    color: var(--muted);
+    display:flex;
+    gap:8px;
+    align-items:center;
+    font-weight: 600;
+    }
+
+    .full{
+    width:100%;
+    justify-content:center;
+    padding: 12px 14px;
+    }
+
+    .switch{
+    margin-top: 14px;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    }
+
+    .link{
+    border: none;
+    background: transparent;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 0;
+    font-weight: 800;
+    }
+    .link:hover{ text-decoration: underline; }
+
+    /* =========================
+    ✅ Burgundy ring glow (안쪽 색 X, 테두리만)
+    ========================= */
+    .glow{
+    position: relative;
+    overflow: visible;
+    }
+
+    /* 바깥으로만 은은한 빛(선택) */
     .glow::before{
     content:"";
     position:absolute;
-    inset:-18px;                 /* 바깥쪽으로만 퍼지게 */
+    inset:-18px;
     border-radius: 28px;
     background: radial-gradient(closest-side, rgba(122,31,61,.18), transparent 70%);
     filter: blur(18px);
@@ -184,14 +238,13 @@
     pointer-events:none;
     }
 
-
-    /* 테두리 느낌(얇게 한 겹 더) */
+    /* 테두리 링이 회전하면서 도는 느낌 */
     .glow::after{
     content:"";
     position:absolute;
-    inset:-3px;                 /* 테두리 영역 */
+    inset:-3px;
     border-radius: 20px;
-    padding: 2px;               /* 링 두께 */
+    padding: 2px; /* 링 두께 */
     background: conic-gradient(
         from var(--a),
         rgba(122,31,61,0),
@@ -205,29 +258,28 @@
     pointer-events:none;
     animation: glowSpin 3.2s linear infinite;
 
-    /* 가운데를 뚫어서 "테두리만" 보이게 */
+    /* 가운데 뚫어서 테두리만 보이게 */
     -webkit-mask:
         linear-gradient(#000 0 0) content-box,
         linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
 
-    /* 링 자체가 살짝 빛나게 */
     filter: drop-shadow(0 0 10px rgba(122,31,61,.25));
     }
 
-
-    /* 카드 내용은 glow 레이어 위로 */
     .glow > *{
     position: relative;
     z-index: 1;
     }
 
-    /* 입력 포커스 시 더 살아나게 */
-    .glow:focus-within::before{ opacity: .75; filter: blur(18px); }
-    .glow:focus-within::after{ opacity: .85; }
+    /* 포커스 시 더 살아나게 */
+    .glow:focus-within::after{
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(122,31,61,.35));
+    }
 
-    /* 애니메이션용 커스텀 속성 */
+    /* 애니메이션 */
     @property --a{
     syntax: "<angle>";
     inherits: false;
@@ -237,10 +289,9 @@
     to{ --a: 360deg; }
     }
 
-    /* 접근성: 모션 줄이기 설정이면 애니메이션 끔 */
     @media (prefers-reduced-motion: reduce){
-    .glow::before, .glow::after{ animation: none; }
+    .glow::after{ animation: none; }
     }
-
     </style>
+
     

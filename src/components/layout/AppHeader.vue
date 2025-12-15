@@ -54,9 +54,9 @@
     <style scoped>
     .hdr{
       position:sticky; top:0; z-index:50;
-      background: rgba(255,255,255,.82);
-      backdrop-filter: blur(10px);
-      border-bottom:1px solid var(--line);
+      background: var(--glass);
+        backdrop-filter: blur(10px);
+        border-bottom:1px solid var(--line);
       transition: box-shadow .2s ease, transform .25s ease, opacity .25s ease;
       transform: translateY(-6px);
       opacity: 0;
